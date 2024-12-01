@@ -1,5 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
+Console.WriteLine("Naloga 1");
+
 string[] lines = Helper.Helper.GetAllInputsFromTxt(1, false);
 
 List<int> list1 = [];
@@ -28,7 +30,6 @@ for (int i = 0; i < list1.Count; i++)
     sum += Math.Abs(list1[i] - list2[i]);
 }
 
-Console.WriteLine("Naloga 1");
 Console.WriteLine("Part 1");
 Console.WriteLine("Sum: " + sum);
 //Console.WriteLine(Helper.Helper.IsMyTestResultCorrect(1, 1, sum));
