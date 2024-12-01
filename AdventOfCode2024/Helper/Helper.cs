@@ -17,7 +17,7 @@
             }
             fileName += ".txt";
 
-            string[] lines = [];
+            string[] lines;
 
             if (File.Exists(fileName))
             {
