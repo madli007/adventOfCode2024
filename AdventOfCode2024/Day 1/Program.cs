@@ -31,6 +31,7 @@ for (int i = 0; i < list1.Count; i++)
 Console.WriteLine("Naloga 1");
 Console.WriteLine("Part 1");
 Console.WriteLine("Sum: " + sum);
+//Console.WriteLine(Helper.Helper.IsMyTestResultCorrect(1, 1, sum));
 
 
 // part 2
@@ -46,3 +47,4 @@ for (int i = 0; i < list1.Count; i++)
 }
 
 Console.WriteLine("Sum: " + sum2);
+//Console.WriteLine(Helper.Helper.IsMyTestResultCorrect(1, 2, sum2));

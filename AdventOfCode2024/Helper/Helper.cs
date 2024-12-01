@@ -2,6 +2,12 @@
 {
     public class Helper
     {
+        private readonly static Dictionary<string, double> resultsForTestData = new()
+        {
+            {"1.1", 11},
+            {"1.2", 31}
+        };
+
         public static string[] GetAllInputsFromTxt(int day, bool useTestInput)
         {
             string fileName = "Day" + day.ToString() + "_input";
@@ -25,6 +31,13 @@
             }
 
             return lines;
+        }
+
+        public static bool IsMyTestResultCorrect(int day, int part, double myResult)
+        {
+            string key = day.ToString() + "." + part.ToString();
+            resultsForTestData.TryGetValue(key, out double correctResult);
+            return myResult == correctResult;
         }
     }
 }
