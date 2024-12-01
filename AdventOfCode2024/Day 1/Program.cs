@@ -1,23 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-static string[] GetAllInputsFromTxt()
-{
-    string textFile = "input.txt";
-    string[] lines = [];
-
-    if (File.Exists(textFile))
-    {
-        // Read a text file line by line.
-        lines = File.ReadAllLines(textFile);
-    }
-
-    return lines;
-}
-
-//string testInput = "3   4\r\n4   3\r\n2   5\r\n1   3\r\n3   9\r\n3   3";
-
-string[] lines = GetAllInputsFromTxt();
-//lines = testInput.Split("\r\n");
+string[] lines = Helper.Helper.GetAllInputsFromTxt(1, false);
 
 List<int> list1 = [];
 List<int> list2 = [];
