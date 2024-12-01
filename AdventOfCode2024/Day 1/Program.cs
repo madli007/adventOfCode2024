@@ -17,7 +17,7 @@ static string[] GetAllInputsFromTxt()
 //string testInput = "3   4\r\n4   3\r\n2   5\r\n1   3\r\n3   9\r\n3   3";
 
 string[] lines = GetAllInputsFromTxt();
-//string[] lines = testInput.Split("\r\n");
+//lines = testInput.Split("\r\n");
 
 List<int> list1 = [];
 List<int> list2 = [];
@@ -45,17 +45,21 @@ for (int i = 0; i < list1.Count; i++)
     sum += Math.Abs(list1[i] - list2[i]);
 }
 
-
-// izpis
-foreach (int number in list2)
-{
-    Console.WriteLine(number);
-}
-
 Console.WriteLine("Naloga 1");
 Console.WriteLine("Part 1");
 Console.WriteLine("Sum: " + sum);
 
 
-
 // part 2
+Console.WriteLine();
+Console.WriteLine("-----------------");
+Console.WriteLine("Part 2");
+
+int sum2 = 0;
+for (int i = 0; i < list1.Count; i++)
+{
+    int numberOfRepetitions = list2.FindAll(x => x == list1[i]).Count;
+    sum2 += list1[i] * numberOfRepetitions;
+}
+
+Console.WriteLine("Sum: " + sum2);
