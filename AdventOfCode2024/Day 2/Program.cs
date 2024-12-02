@@ -3,7 +3,7 @@
 
 Console.WriteLine("Naloga 2");
 
-string[] lines = Helper.Helper.GetAllInputsFromTxt(2, true);
+string[] lines = Helper.Helper.GetAllInputsFromTxt(2, false);
 
 // parse data
 List<List<int>> reports = [];
@@ -110,16 +110,30 @@ int sum2 = 0;
 
 foreach (List<int> report in reports)
 {
-    bool isReportSafe = IsReportSafe(report);
+    int counter = 0;
+    bool isReportSafe = true;
+    List<int> tempReport = new(report);
 
-    if (isReportSafe == false)
+    while (!IsReportSafe(tempReport))
     {
-        foreach (int i in report)
+        if (counter == report.Count)
         {
-            Console.Write(i + " ");
+            isReportSafe = false;
+            break;
         }
-        Console.WriteLine(" => " + isReportSafe);
+        tempReport = new(report);
+        tempReport.RemoveAt(counter);
+        counter++;
     }
+
+    //if (isReportSafe == false)
+    //{
+    //    foreach (int i in report)
+    //    {
+    //        Console.Write(i + " ");
+    //    }
+    //    Console.WriteLine(" => " + isReportSafe);
+    //}
 
 
     if (isReportSafe == true)
