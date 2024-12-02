@@ -5,7 +5,9 @@
         private readonly static Dictionary<string, double> resultsForTestData = new()
         {
             {"1.1", 11},
-            {"1.2", 31}
+            {"1.2", 31},
+            {"2.1", 2},
+            {"2.2", 4}
         };
 
         public static string[] GetAllInputsFromTxt(int day, bool useTestInput)
