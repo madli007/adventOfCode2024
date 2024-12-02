@@ -30,12 +30,12 @@ static bool IsReportSafe(List<int> report, bool tolerateSingleBadLevel = false)
         return false;
     }
 
+    int mistakes = 0;
+
+    startOver:
     bool? smaller = null;
     bool? bigger = null;
     int currentValue = report[0];
-
-    int mistakes = 0;
-    
     for (int i = 1; i < report.Count; i++)
     {
         if (smaller == null && bigger == null)
@@ -63,7 +63,11 @@ static bool IsReportSafe(List<int> report, bool tolerateSingleBadLevel = false)
                     }
                     else
                     {
+                        smaller = null;
+                        bigger = null;
                         isReportSafe = true;
+                        report.RemoveAt(i);
+                        goto startOver;
                     }
                 }
                 else
@@ -92,7 +96,11 @@ static bool IsReportSafe(List<int> report, bool tolerateSingleBadLevel = false)
                     }
                     else
                     {
+                        smaller = null;
+                        bigger = null;
                         isReportSafe = true;
+                        report.RemoveAt(i);
+                        goto startOver;
                     }
                 }
                 else
@@ -121,7 +129,11 @@ static bool IsReportSafe(List<int> report, bool tolerateSingleBadLevel = false)
                     }
                     else
                     {
+                        smaller = null;
+                        bigger = null;
                         isReportSafe = true;
+                        report.RemoveAt(i - 1);
+                        goto startOver;
                     }
                 }
                 else
@@ -165,7 +177,15 @@ foreach (List<int> report in reports)
 {
     bool isReportSafe = IsReportSafe(report, true);
 
-    //Console.WriteLine(isReportSafe);
+    if (isReportSafe == false)
+    {
+        foreach (int i in report)
+        {
+            Console.Write(i + " ");
+        }
+        Console.WriteLine(" => " + isReportSafe);
+    }
+
 
     if (isReportSafe == true)
     {
