@@ -3,7 +3,7 @@
 
 Console.WriteLine("Naloga 2");
 
-string[] lines = Helper.Helper.GetAllInputsFromTxt(2, false);
+string[] lines = Helper.Helper.GetAllInputsFromTxt(2, true);
 
 // parse data
 List<List<int>> reports = [];
@@ -21,7 +21,7 @@ foreach (string line in lines)
     reports.Add(levels);
 }
 
-static bool IsReportSafe(List<int> report, bool tolerateSingleBadLevel = false)
+static bool IsReportSafe(List<int> report)
 {
     bool isReportSafe = true;
 
@@ -30,9 +30,6 @@ static bool IsReportSafe(List<int> report, bool tolerateSingleBadLevel = false)
         return false;
     }
 
-    int mistakes = 0;
-
-    startOver:
     bool? smaller = null;
     bool? bigger = null;
     int currentValue = report[0];
@@ -53,27 +50,7 @@ static bool IsReportSafe(List<int> report, bool tolerateSingleBadLevel = false)
             else
             {
                 isReportSafe = false;
-                mistakes++;
-
-                if (tolerateSingleBadLevel)
-                {
-                    if (mistakes > 1)
-                    {
-                        break;
-                    }
-                    else
-                    {
-                        smaller = null;
-                        bigger = null;
-                        isReportSafe = true;
-                        report.RemoveAt(i);
-                        goto startOver;
-                    }
-                }
-                else
-                {
-                    break;
-                }
+                break;
             }
         }
         else if (smaller == true)
@@ -85,28 +62,7 @@ static bool IsReportSafe(List<int> report, bool tolerateSingleBadLevel = false)
             else
             {
                 isReportSafe = false;
-
-                mistakes++;
-
-                if (tolerateSingleBadLevel)
-                {
-                    if (mistakes > 1)
-                    {
-                        break;
-                    }
-                    else
-                    {
-                        smaller = null;
-                        bigger = null;
-                        isReportSafe = true;
-                        report.RemoveAt(i);
-                        goto startOver;
-                    }
-                }
-                else
-                {
-                    break;
-                }
+                break;
             }
         }
         else if (bigger == true)
@@ -118,28 +74,7 @@ static bool IsReportSafe(List<int> report, bool tolerateSingleBadLevel = false)
             else
             {
                 isReportSafe = false;
-
-                mistakes++;
-
-                if (tolerateSingleBadLevel)
-                {
-                    if (mistakes > 1)
-                    {
-                        break;
-                    }
-                    else
-                    {
-                        smaller = null;
-                        bigger = null;
-                        isReportSafe = true;
-                        report.RemoveAt(i - 1);
-                        goto startOver;
-                    }
-                }
-                else
-                {
-                    break;
-                }
+                break;
             }
         }
     }
@@ -175,7 +110,7 @@ int sum2 = 0;
 
 foreach (List<int> report in reports)
 {
-    bool isReportSafe = IsReportSafe(report, true);
+    bool isReportSafe = IsReportSafe(report);
 
     if (isReportSafe == false)
     {
