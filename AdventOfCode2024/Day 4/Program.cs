@@ -1,11 +1,12 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
+using System.Drawing;
 using System.Text.RegularExpressions;
 
 Console.WriteLine("Naloga 4");
 Console.WriteLine();
 
-string[] lines = Helper.Helper.GetAllInputsFromTxt(4, true);
+string[] lines = Helper.Helper.GetAllInputsFromTxt(4, false);
 
 int lineLength = lines[0].Length;
 int numberOfLines = lines.Length;
@@ -153,4 +154,106 @@ foreach (string combo in allCombos)
 Console.WriteLine();
 Console.WriteLine("Part 1");
 Console.WriteLine("Sum: " + sum);
-Console.WriteLine(Helper.Helper.IsMyTestResultCorrect(4, 1, sum));
+//Console.WriteLine(Helper.Helper.IsMyTestResultCorrect(4, 1, sum));
+
+
+// part 2
+Console.WriteLine();
+Console.WriteLine("-----------------");
+Console.WriteLine("Part 2");
+
+int sum2 = 0;
+
+List<Point> coordinatesOfA = [];
+
+for (int i = 0;  i < numberOfLines; i++)
+{
+    for (int j = 0; j < lineLength; j++)
+    {
+        if (tableMatrix[i, j] == 'A')
+        {
+            coordinatesOfA.Add(new Point(i, j));
+        }
+    }
+}
+
+// check for MAS cross
+for (int i = 0; i < coordinatesOfA.Count; i++)
+{
+    bool isMasFromUpperLeft = false;
+    bool isMasFromUpperRight = false;
+
+    x = coordinatesOfA[i].X - 1;
+    y = coordinatesOfA[i].Y - 1;
+
+    if (x >= 0 && y >= 0)
+    {
+        if (tableMatrix[x, y] == 'S')
+        {
+            x = coordinatesOfA[i].X + 1;
+            y = coordinatesOfA[i].Y + 1;
+
+            if (x < lineLength && y < numberOfLines)
+            {
+                if (tableMatrix[x, y] == 'M')
+                {
+                    isMasFromUpperLeft = true;
+                }
+            }
+        }
+        else if (tableMatrix[x, y] == 'M')
+        {
+            x = coordinatesOfA[i].X + 1;
+            y = coordinatesOfA[i].Y + 1;
+
+            if (x < lineLength && y < numberOfLines)
+            {
+                if (tableMatrix[x, y] == 'S')
+                {
+                    isMasFromUpperLeft = true;
+                }
+            }
+        }
+    }
+
+    x = coordinatesOfA[i].X + 1;
+    y = coordinatesOfA[i].Y - 1;
+
+    if (x < lineLength && y >= 0)
+    {
+        if (tableMatrix[x, y] == 'S')
+        {
+            x = coordinatesOfA[i].X - 1;
+            y = coordinatesOfA[i].Y + 1;
+
+            if (x >= 0 && y < numberOfLines)
+            {
+                if (tableMatrix[x, y] == 'M')
+                {
+                    isMasFromUpperRight = true;
+                }
+            }
+        }
+        else if (tableMatrix[x, y] == 'M')
+        {
+            x = coordinatesOfA[i].X - 1;
+            y = coordinatesOfA[i].Y + 1;
+
+            if (x >= 0 && y < numberOfLines)
+            {
+                if (tableMatrix[x, y] == 'S')
+                {
+                    isMasFromUpperRight = true;
+                }
+            }
+        }
+    }
+
+    if (isMasFromUpperLeft && isMasFromUpperRight)
+    {
+        sum2++;
+    }
+}
+
+Console.WriteLine("Sum: " + sum2);
+//Console.WriteLine(Helper.Helper.IsMyTestResultCorrect(4, 2, sum2));
