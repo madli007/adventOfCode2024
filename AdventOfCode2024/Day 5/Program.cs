@@ -1,12 +1,11 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 using Day_5;
-using System.Linq;
 
 Console.WriteLine("Naloga 5");
 Console.WriteLine();
 
-string[] lines = Helper.Helper.GetAllInputsFromTxt(5, false);
+string[] lines = Helper.Helper.GetAllInputsFromTxt(5, true);
 
 List<Rule> rules = [];
 List<string> updates = [];
@@ -38,6 +37,8 @@ foreach (IGrouping<int, Rule> packageGroup in rulesLookup)
         Console.WriteLine("    {0}", r.Page2);
     }
 }
+
+List<List<int>> incorrectlyOrderedUpdates = [];
 
 int sum = 0;
 
@@ -74,6 +75,16 @@ foreach (string update in updates)
         int middleNumber = int.Parse(split[(split.Length - 1) / 2]);
         sum += middleNumber;
     }
+    else
+    {
+        List<int> list = [];
+        foreach (string s in split)
+        {
+            int nr = int.Parse(s);
+            list.Add(nr);
+        }
+        incorrectlyOrderedUpdates.Add(list);
+    }
 
     Console.WriteLine(ok);
 }
@@ -82,3 +93,21 @@ Console.WriteLine();
 Console.WriteLine("Part 1");
 Console.WriteLine("Sum: " + sum);
 //Console.WriteLine(Helper.Helper.IsMyTestResultCorrect(5, 1, sum));
+
+
+// part 2
+Console.WriteLine();
+Console.WriteLine("-----------------");
+Console.WriteLine("Part 2");
+
+
+int sum2 = 0;
+
+foreach (List<int> update in incorrectlyOrderedUpdates)
+{
+
+}
+
+
+Console.WriteLine("Sum: " + sum2);
+Console.WriteLine(Helper.Helper.IsMyTestResultCorrect(5, 2, sum2));
