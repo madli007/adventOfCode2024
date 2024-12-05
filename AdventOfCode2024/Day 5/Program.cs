@@ -5,7 +5,7 @@ using Day_5;
 Console.WriteLine("Naloga 5");
 Console.WriteLine();
 
-string[] lines = Helper.Helper.GetAllInputsFromTxt(5, true);
+string[] lines = Helper.Helper.GetAllInputsFromTxt(5, false);
 
 List<Rule> rules = [];
 List<string> updates = [];
@@ -100,14 +100,95 @@ Console.WriteLine();
 Console.WriteLine("-----------------");
 Console.WriteLine("Part 2");
 
+bool IsFollowingRules(List<int> update)
+{
+    int i = 0;
+    bool ok = true;
+
+    foreach (int pageNr in update)
+    {
+        var rulesForPage = rulesLookup[pageNr];
+
+        foreach (Rule r in rulesForPage)
+        {
+            int findPages = update.FindIndex(x => x.Equals(r.Page2));
+
+            if (findPages != -1)
+            {
+                if (findPages < i)
+                {
+                    ok = false;
+                }
+            }
+        }
+
+        i++;
+    }
+
+    return ok;
+}
+
+IEnumerable<IEnumerable<T>> GetPermutations<T>(IEnumerable<T> items, int count)
+{
+    int i = 0;
+    foreach (var item in items)
+    {
+        if (count == 1)
+        {
+            yield return new T[] { item };
+        }
+
+        else
+        {
+            foreach (var result in GetPermutations(items.Skip(i + 1), count - 1))
+            {
+                yield return new T[] { item }.Concat(result);
+            }
+        }
+
+        i++;
+    }
+}
+
 
 int sum2 = 0;
 
 foreach (List<int> update in incorrectlyOrderedUpdates)
 {
+    // original order
+    foreach (int i in update)
+    {
+        Console.Write(i + ", ");
+    }
 
+    List<int> shuffledList = [];
+    shuffledList.AddRange(update);
+    shuffledList.Shuffle();
+
+    bool isOk = IsFollowingRules(shuffledList);
+    int counter = 0;
+
+    while (!isOk)
+    {
+        shuffledList = [];
+        shuffledList.AddRange(update);
+        shuffledList.Shuffle();
+        isOk = IsFollowingRules(shuffledList);
+        counter++;
+    }
+
+    // correct order
+    Console.Write(" => ");
+    foreach (int i in shuffledList)
+    {
+        Console.Write(i + ", ");
+    }
+
+    Console.WriteLine();
+
+    int middleNumber = shuffledList[(shuffledList.Count - 1) / 2];
+    sum2 += middleNumber;
 }
 
-
 Console.WriteLine("Sum: " + sum2);
-Console.WriteLine(Helper.Helper.IsMyTestResultCorrect(5, 2, sum2));
+//Console.WriteLine(Helper.Helper.IsMyTestResultCorrect(5, 2, sum2));
