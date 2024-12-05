@@ -1,6 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 using Day_5;
+using System.Numerics;
 
 Console.WriteLine("Naloga 5");
 Console.WriteLine();
@@ -128,66 +129,90 @@ bool IsFollowingRules(List<int> update)
     return ok;
 }
 
-IEnumerable<IEnumerable<T>> GetPermutations<T>(IEnumerable<T> items, int count)
+static IEnumerable<IEnumerable<T>> GetPermutations<T>(IEnumerable<T> list, int length)
 {
-    int i = 0;
-    foreach (var item in items)
-    {
-        if (count == 1)
-        {
-            yield return new T[] { item };
-        }
+    if (length == 1) return list.Select(t => new T[] { t });
 
-        else
-        {
-            foreach (var result in GetPermutations(items.Skip(i + 1), count - 1))
-            {
-                yield return new T[] { item }.Concat(result);
-            }
-        }
-
-        i++;
-    }
+    return GetPermutations(list, length - 1)
+        .SelectMany(t => list.Where(e => !t.Contains(e)),
+            (t1, t2) => t1.Concat(new T[] { t2 }));
 }
 
+IEnumerable<IEnumerable<int>> resul123t =
+    GetPermutations(Enumerable.Range(1, 3), 3);
+
+static long Factorial(int n)
+{
+    if (n == 0 || n == 1)
+        return 1;
+    return n * Factorial(n - 1);
+}
 
 int sum2 = 0;
 
 foreach (List<int> update in incorrectlyOrderedUpdates)
 {
+    bool isOk = false;
+
     // original order
-    foreach (int i in update)
+    //foreach (int i in update)
+    //{
+    //    Console.Write(i + ", ");
+    //}
+
+    var result = GetPermutations(update, update.Count);
+
+    //var result = GetPermutations(update, update.Count);
+    BigInteger counter = 0;
+    BigInteger comboNumber = Factorial(update.Count);
+
+    foreach (IEnumerable<int> combo in result)
     {
-        Console.Write(i + ", ");
-    }
+        isOk = IsFollowingRules(combo.ToList());
+        if (isOk)
+        {
+            break;
+        }
 
-    List<int> shuffledList = [];
-    shuffledList.AddRange(update);
-    shuffledList.Shuffle();
-
-    bool isOk = IsFollowingRules(shuffledList);
-    int counter = 0;
-
-    while (!isOk)
-    {
-        shuffledList = [];
-        shuffledList.AddRange(update);
-        shuffledList.Shuffle();
-        isOk = IsFollowingRules(shuffledList);
         counter++;
+
+        if (counter % 100000 == 0)
+        {
+            Console.WriteLine(counter.ToString() + "/" + comboNumber.ToString());
+        }
     }
 
-    // correct order
-    Console.Write(" => ");
-    foreach (int i in shuffledList)
+    //List<int> shuffledList = [];
+    //shuffledList.AddRange(update);
+    //shuffledList.Shuffle();
+
+    //bool isOk = IsFollowingRules(shuffledList);
+    //int counter = 0;
+
+    //while (!isOk)
+    //{
+    //    shuffledList = [];
+    //    shuffledList.AddRange(update);
+    //    shuffledList.Shuffle();
+    //    isOk = IsFollowingRules(shuffledList);
+    //    counter++;
+    //}
+
+
+    if (result != null)
     {
-        Console.Write(i + ", ");
+        // correct order
+        //Console.Write(" => ");
+        //foreach (int i in result.ToList()[counter])
+        //{
+        //    Console.Write(i + ", ");
+        //}
+
+        //Console.WriteLine();
+
+        //int middleNumber = result[(result.Count - 1) / 2];
+        //sum2 += middleNumber;
     }
-
-    Console.WriteLine();
-
-    int middleNumber = shuffledList[(shuffledList.Count - 1) / 2];
-    sum2 += middleNumber;
 }
 
 Console.WriteLine("Sum: " + sum2);
