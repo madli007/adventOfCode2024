@@ -6,7 +6,7 @@ using System.Drawing;
 Console.WriteLine("Naloga 6");
 Console.WriteLine();
 
-string[] lines = Helper.Helper.GetAllInputsFromTxt(6, false);
+string[] lines = Helper.Helper.GetAllInputsFromTxt(6, true);
 
 int lineLength = lines[0].Length;
 int numberOfLines = lines.Length;
