@@ -61,51 +61,63 @@ static void PrintAllKLengthPermRec(string str, string prefix, int n, int k, List
 }
 //
 
-BigInteger sum = 0;
-
-foreach (Equation equation in equations)
+static BigInteger GetSumOfEquations(List<Equation> equations, string operatorsToUse)
 {
-    BigInteger tempResult = equation.Numbers.First();
-    List<string> operators = [];
+    BigInteger sum = 0;
 
-    PrintAllKLengthPerm("*+", equation.Numbers.Count - 1, operators);
-
-    for (int i = 0; i < operators.Count; i++)
+    foreach (Equation equation in equations)
     {
-        string currentOperators = operators[i];
-        tempResult = equation.Numbers.First();
-        for (int j = 1; j < equation.Numbers.Count; j++)
-        {
-            if (currentOperators[j - 1].Equals('*'))
-            {
-                tempResult *= equation.Numbers[j];
-            }
-            else if (currentOperators[j - 1].Equals('+'))
-            {
-                tempResult += equation.Numbers[j];
-            }
-        }
+        BigInteger tempResult = equation.Numbers.First();
+        List<string> operators = [];
 
-        if (tempResult == equation.Result)
+        PrintAllKLengthPerm(operatorsToUse, equation.Numbers.Count - 1, operators);
+
+        for (int i = 0; i < operators.Count; i++)
         {
-            sum += tempResult;
-            break;
+            string currentOperators = operators[i];
+            tempResult = equation.Numbers.First();
+            for (int j = 1; j < equation.Numbers.Count; j++)
+            {
+                if (currentOperators[j - 1].Equals('*'))
+                {
+                    tempResult *= equation.Numbers[j];
+                }
+                else if (currentOperators[j - 1].Equals('+'))
+                {
+                    tempResult += equation.Numbers[j];
+                }
+
+                else if (currentOperators[j - 1].Equals('|'))
+                {
+                    tempResult = BigInteger.Parse(tempResult.ToString() + equation.Numbers[j].ToString());
+                }
+            }
+
+            if (tempResult == equation.Result)
+            {
+                sum += tempResult;
+                break;
+            }
         }
     }
+
+    return sum;
 }
+
+BigInteger sum = GetSumOfEquations(equations, "*+");
 
 
 Console.WriteLine();
 Console.WriteLine("Part 1");
 Console.WriteLine("Sum: " + sum);
-//Console.WriteLine(Helper.Helper.IsMyTestResultCorrect(7, 1, sum));
+//Console.WriteLine(Helper.Helper.IsMyTestResultCorrect(7, 1, (double)sum));
 
 // part 2
 Console.WriteLine();
 Console.WriteLine("-----------------");
 Console.WriteLine("Part 2");
 
-int sum2 = 0;
+BigInteger sum2 = GetSumOfEquations(equations, "*+|");
 
 Console.WriteLine("Sum: " + sum2);
-Console.WriteLine(Helper.Helper.IsMyTestResultCorrect(7, 2, sum2));
+//Console.WriteLine(Helper.Helper.IsMyTestResultCorrect(7, 2, (double)sum2));
