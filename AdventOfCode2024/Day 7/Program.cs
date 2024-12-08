@@ -82,6 +82,7 @@ static BigInteger GetSumOfEquations(List<Equation> equations, string operatorsTo
                 {
                     tempResult *= equation.Numbers[j];
                 }
+                
                 else if (currentOperators[j - 1].Equals('+'))
                 {
                     tempResult += equation.Numbers[j];
