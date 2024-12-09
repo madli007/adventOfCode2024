@@ -4,7 +4,7 @@ using System.Numerics;
 
 Console.WriteLine("Naloga 9");
 
-string[] lines = Helper.Helper.GetAllInputsFromTxt(9, false);
+string[] lines = Helper.Helper.GetAllInputsFromTxt(9, true);
 
 List<int> diskMap = [];
 
@@ -42,7 +42,6 @@ Console.WriteLine();
 
 List<string> output2 = [.. output];
 
-// TODO: preuredit, mam napako, ker so idji prek 10 in potem pri urejanju ne upoštevam, da ma cifra 2 števki
 for (int i = 0; i < output2.Count; i++)
 {
     if (output2[i].Equals("."))
@@ -82,7 +81,84 @@ Console.WriteLine();
 Console.WriteLine("-----------------");
 Console.WriteLine("Part 2");
 
-int sum2 = 0;
+output2 = [.. output];
+int counter = output2.Count - 1;
+for (int i = 0; i < output2.Count; i++)
+{
+    if (output2[i].Equals("."))
+    {
+        ponovi:
+        if (counter < 0)
+        {
+            break;
+        }
+        if (output2[counter].Equals("."))
+        {
+            counter--;
+            goto ponovi;
+        }
+
+        int emptySpacesNr = 0;
+        int spacesNeeded = 0;
+
+        for (int j = i; j < output2.Count; j++)
+        {
+            if (output2[j].Equals("."))
+            {
+                emptySpacesNr++;
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        for (int j = counter; j > 0; j--)
+        {
+            if (output2[j].Equals(output2[counter]))
+            {
+                spacesNeeded++;
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        if (emptySpacesNr >= spacesNeeded)
+        {
+            for (int k = 0; k < spacesNeeded; k++)
+            {
+                output2[k] = output2[counter];
+            }
+
+            for (int k = spacesNeeded; k > 0; k--)
+            {
+                output2[counter - k] = ".";
+            }
+        }
+
+        if (emptySpacesNr != 0)
+        {
+            counter -= spacesNeeded;
+        }
+    }
+}
+
+BigInteger sum2 = 0;
+int countForSum = 0;
+
+for (int i = 0; i < output2.Count; i++)
+{
+    Console.Write(output2[i]);
+    if (!output2[i].Equals("."))
+    {
+        sum2 += countForSum * int.Parse(output2[i].ToString());
+        countForSum++;
+    }
+}
+
+Console.WriteLine();
 
 Console.WriteLine("Sum: " + sum2);
-Console.WriteLine(Helper.Helper.IsMyTestResultCorrect(9, 2, sum2));
+Console.WriteLine(Helper.Helper.IsMyTestResultCorrect(9, 2, (double)sum2));
