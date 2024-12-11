@@ -17,7 +17,7 @@ foreach (string line in lines)
     }
 }
 
-int GetNumberOfStones(int numberOfBlinks)
+BigInteger GetNumberOfStones(int numberOfBlinks)
 {
     for (int i = 0; i < numberOfBlinks; i++)
     {
@@ -31,8 +31,14 @@ int GetNumberOfStones(int numberOfBlinks)
             }
             else if (numbers[j].ToString().Length % 2 == 0)
             {
-                BigInteger number1 = BigInteger.Parse(numbers[j].ToString().Substring(0, numbers[j].ToString().Length / 2));
-                BigInteger number2 = BigInteger.Parse(numbers[j].ToString().Substring(numbers[j].ToString().Length / 2));
+                int lengthHalf = numbers[j].ToString().Length / 2;
+                //string stringNumber = numbers[j].ToString();
+                //BigInteger number1 = BigInteger.Parse(stringNumber.Substring(0, lengthHalf));
+                //BigInteger number2 = BigInteger.Parse(stringNumber.Substring(lengthHalf));
+
+                BigInteger divisor = BigInteger.Pow(10, lengthHalf);
+                BigInteger number1 = numbers[j] / divisor;
+                BigInteger number2 = numbers[j] % divisor;
 
                 newNumbers.Add(number1);
                 newNumbers.Add(number2);
@@ -44,16 +50,19 @@ int GetNumberOfStones(int numberOfBlinks)
             }
         }
         numbers = newNumbers;
+
+        // progress
+        Console.WriteLine(i.ToString() + " / " + (numberOfBlinks - 1).ToString());
     }
 
     return numbers.Count;
 }
 
-int sum = GetNumberOfStones(25);
+BigInteger sum = GetNumberOfStones(25);
 
 Console.WriteLine("Part 1");
 Console.WriteLine("Sum: " + sum);
-//Console.WriteLine(Helper.Helper.IsMyTestResultCorrect(11, 1, sum));
+//Console.WriteLine(Helper.Helper.IsMyTestResultCorrect(11, 1, (double)sum));
 
 
 // part 2
@@ -61,7 +70,7 @@ Console.WriteLine();
 Console.WriteLine("-----------------");
 Console.WriteLine("Part 2");
 
-int sum2 = 0;
+BigInteger sum2 = GetNumberOfStones(75);
 
 Console.WriteLine("Sum: " + sum2);
-Console.WriteLine(Helper.Helper.IsMyTestResultCorrect(11, 2, sum2));
+//Console.WriteLine(Helper.Helper.IsMyTestResultCorrect(11, 2, (double)sum2));
