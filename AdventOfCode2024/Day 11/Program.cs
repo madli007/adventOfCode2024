@@ -17,36 +17,39 @@ foreach (string line in lines)
     }
 }
 
-int numberOfBlinks = 25;
-
-for (int i = 0; i < numberOfBlinks; i++)
+int GetNumberOfStones(int numberOfBlinks)
 {
-    List<BigInteger> newNumbers = [];
-
-    for (int j = 0; j < numbers.Count; j++)
+    for (int i = 0; i < numberOfBlinks; i++)
     {
-        if (numbers[j] == 0)
-        {
-            newNumbers.Add(1);
-        }
-        else if (numbers[j].ToString().Length % 2 == 0)
-        {
-            BigInteger number1 = BigInteger.Parse(numbers[j].ToString().Substring(0, numbers[j].ToString().Length / 2));
-            BigInteger number2 = BigInteger.Parse(numbers[j].ToString().Substring(numbers[j].ToString().Length / 2));
+        List<BigInteger> newNumbers = [];
 
-            newNumbers.Add(number1);
-            newNumbers.Add(number2);
-        }
-        else
+        for (int j = 0; j < numbers.Count; j++)
         {
-            BigInteger number = numbers[j] * 2024;
-            newNumbers.Add(number);
+            if (numbers[j] == 0)
+            {
+                newNumbers.Add(1);
+            }
+            else if (numbers[j].ToString().Length % 2 == 0)
+            {
+                BigInteger number1 = BigInteger.Parse(numbers[j].ToString().Substring(0, numbers[j].ToString().Length / 2));
+                BigInteger number2 = BigInteger.Parse(numbers[j].ToString().Substring(numbers[j].ToString().Length / 2));
+
+                newNumbers.Add(number1);
+                newNumbers.Add(number2);
+            }
+            else
+            {
+                BigInteger number = numbers[j] * 2024;
+                newNumbers.Add(number);
+            }
         }
+        numbers = newNumbers;
     }
-    numbers = newNumbers;
+
+    return numbers.Count;
 }
 
-int sum = numbers.Count;
+int sum = GetNumberOfStones(25);
 
 Console.WriteLine("Part 1");
 Console.WriteLine("Sum: " + sum);
