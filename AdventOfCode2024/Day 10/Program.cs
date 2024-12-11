@@ -72,14 +72,20 @@ bool startProcedure(Point startingPoint, int[,] map)
             // add all but first one to unfinished list
             unfinishedCheckpoints.AddRange([.. pointsWithDirections.GetRange(1, pointsWithDirections.Count - 1)]);
         }
-        startProcedure(pointsWithDirections.First().Point, map);
+
         Console.WriteLine(pointsWithDirections.First().ToString() + " => " + map[pointsWithDirections.First().Point.X, pointsWithDirections.First().Point.Y].ToString());
+
+        if (map[pointsWithDirections.First().Point.X, pointsWithDirections.First().Point.Y] == 9)
+        {
+            return true;
+        }
+
+        else
+        {
+            startProcedure(pointsWithDirections.First().Point, map);
+        }
     }
-    
-    if (map[startingPoint.X, startingPoint.Y] == 9)
-    {
-        return true;
-    }
+
     return false;
 }
 
