@@ -1,5 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
+using Day_12;
 using System.Drawing;
 using System.Numerics;
 
@@ -19,6 +20,19 @@ for (int i = 0; i < numberOfLines; i++)
         map[j, i] = lines[i][j];
     }
 }
+
+List<Region> regions = [];
+char currentType = map[0, 0];
+List<Point> coordinates = [];
+
+for (int i = 0; i < numberOfLines; i++)
+{
+    for (int j = 0; j < lineLength; j++)
+    {
+        
+    }
+}
+
 
 int sum = 0;
 
