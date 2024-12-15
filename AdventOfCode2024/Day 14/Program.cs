@@ -172,6 +172,78 @@ Console.WriteLine();
 Console.WriteLine("-----------------");
 Console.WriteLine("Part 2");
 
+for (int counter = 0; counter < 150; counter++)
+{
+    secondsExpired = counter;
+    newRobotPositions = [];
+    foreach (Robot robot in robots)
+    {
+        Robot r = new();
+        Point position = new(robot.Position.X, robot.Position.Y);
+        Point velocity = new(robot.Velocity.X, robot.Velocity.Y);
+        r.Velocity = velocity;
+
+        position.X += velocity.X * secondsExpired;
+        position.Y += velocity.Y * secondsExpired;
+
+        // out of bounds calculation
+        position.X %= mapWidth;
+        position.Y %= mapHeight;
+
+        if (position.X < 0)
+        {
+            position.X = mapWidth - Math.Abs(position.X);
+        }
+
+        if (position.Y < 0)
+        {
+            position.Y = mapHeight - Math.Abs(position.Y);
+        }
+
+        r.Position = position;
+
+        newRobotPositions.Add(r);
+    }
+
+    using StreamWriter outputFile = new("WriteLines" + counter.ToString() + ".txt");
+
+    outputFile.WriteLine();
+    for (int i = 0; i < mapHeight; i++)
+    {
+        for (int j = 0; j < mapWidth; j++)
+        {
+            if (j == mapWidth / 2)
+            {
+                outputFile.Write(" ");
+                continue;
+            }
+
+            if (i == mapHeight / 2)
+            {
+                continue;
+            }
+
+            int numberOfRobotsFound = newRobotPositions.FindAll(x => x.Position.X == j && x.Position.Y == i).Count;
+            if (numberOfRobotsFound > 0)
+            {
+                outputFile.Write(numberOfRobotsFound.ToString());
+            }
+            else
+            {
+                outputFile.Write(".");
+            }
+        }
+
+        if (i == mapHeight / 2)
+        {
+            outputFile.WriteLine();
+        }
+
+        outputFile.WriteLine();
+    }
+    outputFile.WriteLine();
+}
+
 int sum2 = 0;
 
 Console.WriteLine("Sum: " + sum2);
