@@ -212,16 +212,17 @@ for (int counter = 0; counter < 150; counter++)
     {
         for (int j = 0; j < mapWidth; j++)
         {
-            if (j == mapWidth / 2)
-            {
-                outputFile.Write(" ");
-                continue;
-            }
+            // skip the quadrants stuff?
+            //if (j == mapWidth / 2)
+            //{
+            //    outputFile.Write(" ");
+            //    continue;
+            //}
 
-            if (i == mapHeight / 2)
-            {
-                continue;
-            }
+            //if (i == mapHeight / 2)
+            //{
+            //    continue;
+            //}
 
             int numberOfRobotsFound = newRobotPositions.FindAll(x => x.Position.X == j && x.Position.Y == i).Count;
             if (numberOfRobotsFound > 0)
@@ -234,10 +235,10 @@ for (int counter = 0; counter < 150; counter++)
             }
         }
 
-        if (i == mapHeight / 2)
-        {
-            outputFile.WriteLine();
-        }
+        //if (i == mapHeight / 2)
+        //{
+        //    outputFile.WriteLine();
+        //}
 
         outputFile.WriteLine();
     }
