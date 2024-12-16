@@ -81,6 +81,7 @@ List<List<char>> MoveRobot(List<List<char>> map, char direction)
     {
         Point p = new(robotPosition.X + 1, robotPosition.Y);
         List<char> line = map[p.Y];
+        var groups = line.GroupBy(x => x);
     }
 
     else if (direction.Equals(left))
