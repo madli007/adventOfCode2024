@@ -22,64 +22,83 @@ string joinedInstructions = string.Join("", [.. instructions]);
 int lineLength = mapLines[0].Length;
 int numberOfLines = mapLines.Count;
 
-Point robotPosition = new();
+//Point robotPosition = new();
 
-char[,] map = new char[lineLength, numberOfLines];
+//char[,] map = new char[lineLength, numberOfLines];
+List<List<char>> map = [];
 
 for (int i = 0; i < numberOfLines; i++)
 {
+    List<char> chars = [];
     for (int j = 0; j < lineLength; j++)
     {
-        map[j, i] = mapLines[i][j];
+        chars.Add(mapLines[i][j]);
+        //map[j, i] = mapLines[i][j];
         
-        if (map[j, i] == robot)
-        {
-            robotPosition.X = j;
-            robotPosition.Y = i;
-        }
+        //if (map[j, i] == robot)
+        //{
+        //    robotPosition.X = j;
+        //    robotPosition.Y = i;
+        //}
     }
+    map.Add(chars);
 }
 
 // izris
-void DrawMap(char[,] map)
+void DrawMap(List<List<char>> map)
 {
-    if (map.Length == 0)
+    if (map.Count == 0)
     {
         return;
     }
 
     Console.WriteLine();
-    for (int i = 0; i < mapLines.Count; i++)
+    for (int i = 0; i < map.Count; i++)
     {
-        for (int j = 0; j < mapLines[0].Length; j++)
+        for (int j = 0; j < map[0].Count; j++)
         {
-            Console.Write(map[j, i]);
+            Console.Write(mapLines[i][j]);
         }
         Console.WriteLine();
     }
     Console.WriteLine();
 }
 
-char[,] MoveRobot(char[,] map, Point robotPosition, char direction)
+List<List<char>> MoveRobot(List<List<char>> map, char direction)
 {
+    var position = map
+            .SelectMany((row, rowIndex) => row
+                .Select((ch, colIndex) => new { ch, rowIndex, colIndex }))
+            .FirstOrDefault(item => item.ch == robot);
+
+    Point robotPosition = new()
+    {
+        X = position.colIndex,
+        Y = position.rowIndex
+    };
+
     if (direction.Equals(right))
     {
         Point p = new(robotPosition.X + 1, robotPosition.Y);
+        List<char> line = map[p.Y];
     }
 
     else if (direction.Equals(left))
     {
         Point p = new(robotPosition.X - 1, robotPosition.Y);
+        List<char> line = map[p.Y];
     }
 
     else if (direction.Equals(up))
     {
         Point p = new(robotPosition.X, robotPosition.Y - 1);
+        List<char> line = map[p.Y];
     }
 
     else if (direction.Equals(down))
     {
         Point p = new(robotPosition.X, robotPosition.Y + 1);
+        List<char> line = map[p.Y];
     }
 
 
@@ -90,7 +109,7 @@ DrawMap(map);
 
 foreach (char direction in joinedInstructions)
 {
-    map = MoveRobot(map, robotPosition, direction);
+    map = MoveRobot(map, direction);
     DrawMap(map);
 }
 
