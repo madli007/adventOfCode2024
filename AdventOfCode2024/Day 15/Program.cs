@@ -13,6 +13,7 @@ char up = '^';
 char down = 'v';
 char left = '<';
 char right = '>';
+char space = '.';
 
 // parse
 List<string> mapLines = lines.Where(x => x.Contains(wall)).ToList();
@@ -45,7 +46,7 @@ for (int i = 0; i < numberOfLines; i++)
 }
 
 // izris
-void DrawMap(List<List<char>> map)
+void DrawMap(List<List<char>> map, char direction)
 {
     if (map.Count == 0)
     {
@@ -53,11 +54,12 @@ void DrawMap(List<List<char>> map)
     }
 
     Console.WriteLine();
+    Console.WriteLine("Direction: " + direction);
     for (int i = 0; i < map.Count; i++)
     {
         for (int j = 0; j < map[0].Count; j++)
         {
-            Console.Write(mapLines[i][j]);
+            Console.Write(map[i][j]);
         }
         Console.WriteLine();
     }
@@ -80,38 +82,144 @@ List<List<char>> MoveRobot(List<List<char>> map, char direction)
     if (direction.Equals(right))
     {
         Point p = new(robotPosition.X + 1, robotPosition.Y);
-        List<char> line = map[p.Y];
-        var groups = line.GroupBy(x => x);
+        char currentObject = map[p.Y][p.X];
+
+        if (currentObject.Equals(space))
+        {
+            map[p.Y][p.X] = robot;
+            map[robotPosition.Y][robotPosition.X] = '.';
+        }
+        else if (currentObject.Equals(box))
+        {
+            for (int i = p.X; i < map[0].Count; i++)
+            {
+                char tempObj = map[p.Y][i];
+                
+                // move all boxes
+                if (tempObj.Equals(space))
+                {
+                    map[p.Y][p.X] = robot;
+                    map[robotPosition.Y][robotPosition.X] = '.';
+
+                    for (int j = p.X; j < i; j++)
+                    {
+                        map[p.Y][j + 1] = box;
+                    }
+                    break;
+                }
+            }
+        }
     }
 
     else if (direction.Equals(left))
     {
         Point p = new(robotPosition.X - 1, robotPosition.Y);
-        List<char> line = map[p.Y];
+        char currentObject = map[p.Y][p.X];
+
+        if (map[p.Y][p.X].Equals(space))
+        {
+            map[p.Y][p.X] = robot;
+            map[robotPosition.Y][robotPosition.X] = '.';
+        }
+
+        else if (currentObject.Equals(box))
+        {
+            for (int i = p.X; i > 0; i--)
+            {
+                char tempObj = map[p.Y][i];
+
+                // move all boxes
+                if (tempObj.Equals(space))
+                {
+                    map[p.Y][p.X] = robot;
+                    map[robotPosition.Y][robotPosition.X] = '.';
+
+                    for (int j = p.X; j > i; j--)
+                    {
+                        map[p.Y][j - 1] = box;
+                    }
+                    break;
+                }
+            }
+        }
     }
 
     else if (direction.Equals(up))
     {
         Point p = new(robotPosition.X, robotPosition.Y - 1);
-        List<char> line = map[p.Y];
+        char currentObject = map[p.Y][p.X];
+
+        if (map[p.Y][p.X].Equals(space))
+        {
+            map[p.Y][p.X] = robot;
+            map[robotPosition.Y][robotPosition.X] = '.';
+        }
+
+        else if (currentObject.Equals(box))
+        {
+            for (int i = p.Y; i > 0; i--)
+            {
+                char tempObj = map[i][p.X];
+
+                // move all boxes
+                if (tempObj.Equals(space))
+                {
+                    map[p.Y][p.X] = robot;
+                    map[robotPosition.Y][robotPosition.X] = '.';
+
+                    for (int j = p.Y; j > i; j--)
+                    {
+                        map[j - 1][p.X] = box;
+                    }
+                    break;
+                }
+            }
+        }
     }
 
     else if (direction.Equals(down))
     {
         Point p = new(robotPosition.X, robotPosition.Y + 1);
-        List<char> line = map[p.Y];
+        char currentObject = map[p.Y][p.X];
+
+        if (map[p.Y][p.X].Equals(space))
+        {
+            map[p.Y][p.X] = robot;
+            map[robotPosition.Y][robotPosition.X] = '.';
+        }
+
+        else if (currentObject.Equals(box))
+        {
+            for (int i = p.Y; i < map.Count; i++)
+            {
+                char tempObj = map[i][p.X];
+
+                // move all boxes
+                if (tempObj.Equals(space))
+                {
+                    map[p.Y][p.X] = robot;
+                    map[robotPosition.Y][robotPosition.X] = '.';
+
+                    for (int j = p.Y; j < i; j++)
+                    {
+                        map[j + 1][p.X] = box;
+                    }
+                    break;
+                }
+            }
+        }
     }
 
 
     return map;
 }
 
-DrawMap(map);
+DrawMap(map, '.');
 
 foreach (char direction in joinedInstructions)
 {
     map = MoveRobot(map, direction);
-    DrawMap(map);
+    DrawMap(map, direction);
 }
 
 int sum = 0;
