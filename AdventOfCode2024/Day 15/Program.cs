@@ -4,7 +4,7 @@ using System.Drawing;
 
 Console.WriteLine("Naloga 15");
 
-string[] lines = Helper.Helper.GetAllInputsFromTxt(15, true);
+string[] lines = Helper.Helper.GetAllInputsFromTxt(15, false);
 
 char robot = '@';
 char box = 'O';
@@ -235,14 +235,26 @@ DrawMap(map, '.');
 foreach (char direction in joinedInstructions)
 {
     map = MoveRobot(map, direction);
-    DrawMap(map, direction);
+    //DrawMap(map, direction);
 }
 
 int sum = 0;
 
+// calculate GPS
+for (int i = 0; i < map.Count; i++)
+{
+    for (int j = 0; j < map[0].Count; j++)
+    {
+        if (map[j][i].Equals(box))
+        {
+            sum += j * 100 + i;
+        }
+    }
+}
+
 Console.WriteLine("Part 1");
 Console.WriteLine("Sum: " + sum);
-Console.WriteLine(Helper.Helper.IsMyTestResultCorrect(15, 1, sum));
+//Console.WriteLine(Helper.Helper.IsMyTestResultCorrect(15, 1, sum));
 
 
 // part 2
