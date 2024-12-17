@@ -26,7 +26,8 @@
             {"12.1", 1930},
             {"13.1", 480},
             {"14.1", 12},
-            {"15.1", 10092} // 2028 for smaller example
+            {"15.1", 10092}, // 2028 for smaller example
+            {"16.1", 7036}
         };
 
         public static string[] GetAllInputsFromTxt(int day, bool useTestInput)
