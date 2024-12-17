@@ -107,6 +107,10 @@ List<List<char>> MoveRobot(List<List<char>> map, char direction)
                     }
                     break;
                 }
+                else if (tempObj.Equals(wall))
+                {
+                    break;
+                }
             }
         }
     }
@@ -138,6 +142,10 @@ List<List<char>> MoveRobot(List<List<char>> map, char direction)
                     {
                         map[p.Y][j - 1] = box;
                     }
+                    break;
+                }
+                else if (tempObj.Equals(wall))
+                {
                     break;
                 }
             }
@@ -173,6 +181,10 @@ List<List<char>> MoveRobot(List<List<char>> map, char direction)
                     }
                     break;
                 }
+                else if (tempObj.Equals(wall))
+                {
+                    break;
+                }
             }
         }
     }
@@ -204,6 +216,10 @@ List<List<char>> MoveRobot(List<List<char>> map, char direction)
                     {
                         map[j + 1][p.X] = box;
                     }
+                    break;
+                }
+                else if (tempObj.Equals(wall))
+                {
                     break;
                 }
             }
